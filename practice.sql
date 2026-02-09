@@ -48,3 +48,38 @@ FROM games
 GROUP BY platform
 HAVING total > 1;
 
+-- Games with 'War' in the title
+SELECT title, platform
+FROM games
+WHERE title LIKE '%War%';
+
+-- Games released between 2016 and 2020
+SELECT title, release_year
+FROM games
+WHERE release_year BETWEEN 2016 AND 2020;
+
+-- Games with unknown release year
+SELECT title
+FROM games
+WHERE release_year IS NULL;
+
+-- List all players who scored more than 1000 points
+SELECT player_name, score
+FROM scores
+WHERE score > 1000
+ORDER BY score DESC;
+
+-- Count how many players played each game
+SELECT g.title, COUNT(s.player_name) AS player_count
+FROM games g
+LEFT JOIN scores s ON g.id = s.game_id
+GROUP BY g.title
+ORDER BY player_count DESC;
+
+-- Top 3 highest scoring games
+SELECT g.title, MAX(s.score) AS highest_score
+FROM games g
+JOIN scores s ON g.id = s.games_id
+GROUP BY g.title
+ORDER BY highest_score DESC
+LIMIT 3;
